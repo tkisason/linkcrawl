@@ -20,22 +20,23 @@ def GetLinks(site,clean):
         parser.feed(urllib2.urlopen(site).read())
         parser.close()
         for url in parser.urls:
-            if url.find("://") != -1:
+            if len(url) <= 1:
+                pass
+            elif url.find("://") != -1:
                 Collectedlinks.append(str(url))
             elif url[0] == "/":
                 Collectedlinks.append(str(site+url))
-            elif clean == "-c":
-                print "w00p w00p"
+            elif clean == "-e":
                 Collectedlinks.append(url)
         parser.close()
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        print "usage: ./"+sys.argv[0]+" [-c] http://www.example.com"
-        print "     -c: print only links excluding javascripts and mailtos...\n"
+        print "usage: ./"+sys.argv[0]+" [-e] http://www.example.com"
+        print "     -e: print everything: links including javascripts and mailto attributes...\n"
     else:
-        if sys.argv[1] == "-c":
-            GetLinks(str(sys.argv[2]),str(sys.argv[1]))
+        if sys.argv[1] == "-e":
+            GetLinks(str(sys.argv[2]),"-e")
         else:
             GetLinks(str(sys.argv[1]),"")
         for link in Collectedlinks:
