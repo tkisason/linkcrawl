@@ -1,6 +1,6 @@
-# vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
 #!/usr/bin/env python
-
+# vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
+#
 import urllib2  
 from sgmllib import SGMLParser
 import sys
@@ -38,6 +38,12 @@ def GetLinks(site,clean):
                 Collectedlinks.append(url)
         parser.close()
 
+def Worker(param):
+    if param.find('http://') != -1:
+        return str(param)
+    else:
+        return str('http://'+param)
+
 if __name__ == '__main__':
 	if len(sys.argv) == 1:
 		print "usage: ./"+sys.argv[0]+" [OPTION] http://www.example.com"
@@ -45,11 +51,11 @@ if __name__ == '__main__':
 		print "     -o: print only those that have the same origin as the requested site\n"
 	else:
 		if sys.argv[1] == "-e":
-			GetLinks(str(sys.argv[2]),"-e")
+			GetLinks(Worker(str(sys.argv[2])),"-e")
 		elif sys.argv[1] == "-o":
-			GetLinks(str(sys.argv[2]),"-o")
+			GetLinks(Worker(str(sys.argv[2])),"-o")
 		else:
-			GetLinks(str(sys.argv[1]),"")
+			GetLinks(str(Worker(sys.argv[1])),"")
 		for link in Collectedlinks:
 			print link
 
