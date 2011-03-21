@@ -1,3 +1,8 @@
-This is a trival script which will help you to find all links on a webpage.
+This is a trivial script which will help you to find all links on a webpage.
 
-Usage is simple : ./linkcrawl http://www.foi.hr
+Usage is simple : ./linkcrawl.py [OPTION] http://some.web.site
+
+Options:
+
+	-e: print everything: links including javascripts and mailto attributes...
+	-o: print only those that have the same origin as the requested site

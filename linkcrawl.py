@@ -1,8 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import urllib2  
 from sgmllib import SGMLParser
 import sys
+from urlparse import urlparse
 
 Collectedlinks = []
 
@@ -23,7 +24,13 @@ def GetLinks(site,clean):
             if len(url) <= 1:
                 pass
             elif url.find("://") != -1:
-                Collectedlinks.append(str(url))
+				if clean == "-o":
+					site1 = urlparse(site)
+					url1 = urlparse(url)
+					if site1.netloc == url1.netloc:
+						Collectedlinks.append(str(url))
+				else:
+					Collectedlinks.append(str(url))
             elif url[0] == "/":
                 Collectedlinks.append(str(site+url))
             elif clean == "-e":
@@ -31,14 +38,17 @@ def GetLinks(site,clean):
         parser.close()
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        print "usage: ./"+sys.argv[0]+" [-e] http://www.example.com"
-        print "     -e: print everything: links including javascripts and mailto attributes...\n"
-    else:
-        if sys.argv[1] == "-e":
-            GetLinks(str(sys.argv[2]),"-e")
-        else:
-            GetLinks(str(sys.argv[1]),"")
-        for link in Collectedlinks:
-            print link
+	if len(sys.argv) == 1:
+		print "usage: ./"+sys.argv[0]+" [OPTION] http://www.example.com"
+		print "     -e: print everything: links including javascripts and mailto attributes...\n"
+		print "     -o: print only those that have the same origin as the requested site\n"
+	else:
+		if sys.argv[1] == "-e":
+			GetLinks(str(sys.argv[2]),"-e")
+		elif sys.argv[1] == "-o":
+			GetLinks(str(sys.argv[2]),"-o")
+		else:
+			GetLinks(str(sys.argv[1]),"")
+		for link in Collectedlinks:
+			print link
 
