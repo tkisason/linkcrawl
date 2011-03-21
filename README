@@ -1,6 +1,6 @@
 This is a trivial script which will help you to find all links on a webpage.
 
-Usage is simple : ./linkcrawl.py [OPTION] http://some.web.site
+Usage is simple : ./linkcrawl.py [OPTION] {,http://}some.web.site
 
 Options:
 
