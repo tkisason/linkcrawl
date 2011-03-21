@@ -55,7 +55,7 @@ if __name__ == '__main__':
 		elif sys.argv[1] == "-o":
 			GetLinks(Worker(str(sys.argv[2])),"-o")
 		else:
-			GetLinks(str(Worker(sys.argv[1])),"")
+			GetLinks(Worker(str(sys.argv[1])),"")
 		for link in Collectedlinks:
 			print link
 
