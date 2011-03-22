@@ -30,8 +30,8 @@ def GetLinks(site,clean):
                     url1 = urlparse(url)
                     if site1.netloc == url1.netloc:
 						Collectedlinks.append(str(url))
-                    else:
-					    Collectedlinks.append(str(url))
+                else:
+					Collectedlinks.append(str(url))
             elif url[0] == "/":
                 Collectedlinks.append(str(site+url))
             elif clean == "-e":
