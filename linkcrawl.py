@@ -30,15 +30,18 @@ def GetLinks(site,clean):
                     url1 = urlparse(url)
                     if site1.netloc == url1.netloc:
 						Collectedlinks.append(str(url))
-                else:
+				else:
 					Collectedlinks.append(str(url))
             elif url[0] == "/":
                 Collectedlinks.append(str(site+url))
             elif clean == "-e":
                 Collectedlinks.append(url)
-            elif clean == "-r":
-                for url in Collectedlinks:
-                    GetLinks(url,"-r")
+            elif clean == "-r": #seems legit
+                site2 = urlparse(site)
+                url2 = urlparse(url)
+                    if site2.netloc == url2.netloc:   
+                        for url3 in Collectedlinks:
+                            GetLinks(url3,"")
         parser.close()
 
 def h_pref(param):
@@ -47,9 +50,17 @@ def h_pref(param):
     else:
         return str('http://'+param)
 
+def h_origin(param1, param2):
+    param1 = urlparse(param1)
+    param2 = urlparse(param2)
+    if param1.netloc == param2.netloc:
+        return 1
+    else:
+        return 0
+
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        print "usage: ./"+sys.argv[0]+" [OPTION] http://www.example.com"
+        print "usage: ./"+sys.argv[0]+" [OPTION] {,http://}some.web.site"
         print "     -e: print everything: links including javascripts and mailto attributes...\n"
         print "     -o: print only those that have the same origin as the requested site\n"
     else:
@@ -64,4 +75,3 @@ if __name__ == '__main__':
 			GetLinks(h_pref(str(sys.argv[1])),"")
         for link in Collectedlinks:
             print link
-
