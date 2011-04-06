@@ -27,11 +27,7 @@ def GetLinks(site,clean):
                     site1 = urlparse(site)
                     url1 = urlparse(url)
                     if site1.netloc == url1.netloc:
-<<<<<<< HEAD
 						Collectedlinks.append(str(url))
-=======
-                        Collectedlinks.append(str(url))
->>>>>>> 886e375ad7ef2d996488848bb68882a824848dcf
                 else:
                     Collectedlinks.append(str(url))
             elif url[0] == "/":
