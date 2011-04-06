@@ -29,9 +29,9 @@ def GetLinks(site,clean):
                     site1 = urlparse(site)
                     url1 = urlparse(url)
                     if site1.netloc == url1.netloc:
-						Collectedlinks.append(str(url))
-				else:
-					Collectedlinks.append(str(url))
+                        Collectedlinks.append(str(url))
+                else:
+                    Collectedlinks.append(str(url))
             elif url[0] == "/":
                 Collectedlinks.append(str(site+url))
             elif clean == "-e":
@@ -39,9 +39,9 @@ def GetLinks(site,clean):
             elif clean == "-r": #seems legit
                 site2 = urlparse(site)
                 url2 = urlparse(url)
-                    if site2.netloc == url2.netloc:   
-                        for url3 in Collectedlinks:
-                            GetLinks(url3,"")
+                if site2.netloc == url2.netloc:
+                    for url3 in Collectedlinks:
+                        GetLinks(url3,"")
         parser.close()
 
 def h_pref(param):
@@ -63,6 +63,7 @@ if __name__ == '__main__':
         print "usage: ./"+sys.argv[0]+" [OPTION] {,http://}some.web.site"
         print "     -e: print everything: links including javascripts and mailto attributes...\n"
         print "     -o: print only those that have the same origin as the requested site\n"
+        print "     -r: wannabe recursive parsing option\n"
     else:
         if sys.argv[1] == "-e":
             GetLinks(h_pref(str(sys.argv[2])),"-e")
