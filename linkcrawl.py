@@ -73,6 +73,6 @@ if __name__ == '__main__':
             GetLinks(h_pref(str(sys.argv[2])),"")
             GetLinks(h_pref(str(sys.argv[2])),"-r")
         else:
-			GetLinks(h_pref(str(sys.argv[1])),"")
+            GetLinks(h_pref(str(sys.argv[1])),"")
         for link in Collectedlinks:
             print link
