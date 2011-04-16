@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # work in progress - multipurpose crawler
-import sys
+from sys import argv
 import lxml.html    # you will need python-lxml to use this script.
 from urlparse import urlparse,urljoin 
 import urllib2
@@ -35,13 +35,13 @@ def same_netloc(origin,urllist):
     return outlist
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        print "usage: ./"+sys.argv[0]+" [OPTION] {,http://}some.web.site"
+    if len(argv) == 1:
+        print "usage: ./"+argv[0]+" [OPTION] {,http://}some.web.site"
         print "     -o: print only those that have the same origin as the requested site\n"
     else:
-        if sys.argv[1] == "-o":
-            links = same_netloc(sys.argv[2],parser(sys.argv[2]))
+        if argv[1] == "-o":
+            links = same_netloc(argv[2],parser(argv[2]))
         else:
-            links = parser(sys.argv[1])
+            links = parser(argv[1])
         for link in links:
             print link
