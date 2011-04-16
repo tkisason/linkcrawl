@@ -4,5 +4,4 @@ Usage is simple : ./linkcrawl.py [OPTION] {,http://}some.web.site
 
 Options:
 
-	-e: print everything: links including javascripts and mailto attributes...
 	-o: print only those that have the same origin as the requested site
