@@ -1,76 +1,47 @@
 #!/usr/bin/env python
-import urllib2  
-from sgmllib import SGMLParser
+# work in progress - multipurpose crawler
 import sys
-from urlparse import urlparse
+import lxml.html    # you will need python-lxml to use this script.
+from urlparse import urlparse,urljoin 
+import urllib2
 
-Collectedlinks = []
+useragent = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8 ( .NET CLR 3.5.30729; .NET4.0C)'
 
-class URLLister(SGMLParser):        # Simple SGML Parser for html href extraction
-    def reset(self):
-        SGMLParser.reset(self)
-        self.urls = []
-    def start_a(self, attrs):
-        href = [v for k, v in attrs if k=='href']
-        if href:
-            self.urls.extend(href)
+def get_url(url):
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-Agent', useragent)]
+    usock = opener.open(url)
+    data = usock.read()
+    usock.close()
+    return data
 
-def GetLinks(site,clean):
-        parser = URLLister()
-        parser.feed(urllib2.urlopen(site).read())
-        parser.close()
-        for url in parser.urls:
-            if len(url) <= 1:
-                pass
-            elif url.find("://") != -1:
-                if clean == "-o":
-                    site1 = urlparse(site)
-                    url1 = urlparse(url)
-                    if site1.netloc == url1.netloc:
-						Collectedlinks.append(str(url))
-                else:
-                    Collectedlinks.append(str(url))
-            elif url[0] == "/":
-                Collectedlinks.append(str(site+url))
-            elif clean == "-e":
-                Collectedlinks.append(url)
-            elif clean == "-r": #seems legit
-                site2 = urlparse(site)
-                url2 = urlparse(url)
-                if site2.netloc == url2.netloc:
-                    for url3 in Collectedlinks:
-                        GetLinks(url3,"")
-        parser.close()
+def parser(url,type="a",stype="href"):
+    if url.find('http://') == -1:
+        url = 'http://'+url
+    content = lxml.html.fromstring(get_url(url))
+    links = []
+    for link in content.cssselect(type):
+        links.append(urljoin(url,link.get(stype)))
+    return links
 
-def h_pref(param):
-    if param.find('http://') != -1:
-        return str(param)
-    else:
-        return str('http://'+param)
-
-def h_origin(param1, param2):
-    param1 = urlparse(param1)
-    param2 = urlparse(param2)
-    if param1.netloc == param2.netloc:
-        return 1
-    else:
-        return 0
+def same_netloc(origin,urllist):
+    if origin.find('http://') == -1:
+        origin = 'http://'+origin
+    outlist = []
+    ourl = urlparse(origin).netloc
+    for url in urllist:
+        if urlparse(url).netloc == ourl:
+            outlist.append(url)
+    return outlist
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         print "usage: ./"+sys.argv[0]+" [OPTION] {,http://}some.web.site"
-        print "     -e: print everything: links including javascripts and mailto attributes...\n"
         print "     -o: print only those that have the same origin as the requested site\n"
-        print "     -r: wannabe recursive parsing option\n"
     else:
-        if sys.argv[1] == "-e":
-            GetLinks(h_pref(str(sys.argv[2])),"-e")
-        elif sys.argv[1] == "-o":
-            GetLinks(h_pref(str(sys.argv[2])),"-o")
-        elif sys.argv[1] == "-r":
-            GetLinks(h_pref(str(sys.argv[2])),"")
-            GetLinks(h_pref(str(sys.argv[2])),"-r")
+        if sys.argv[1] == "-o":
+            links = same_netloc(sys.argv[2],parser(sys.argv[2]))
         else:
-            GetLinks(h_pref(str(sys.argv[1])),"")
-        for link in Collectedlinks:
+            links = parser(sys.argv[1])
+        for link in links:
             print link
