@@ -1,7 +1,24 @@
-This is a trivial script which will help you to find all links on a webpage.
+LinkCrawl, this is an ongoing progress to create a single script that can be used for all matter of pentesting/research needs.
+Some functionality that will be added over time is:
+
+* Extract all links from a page (done)
+* Extract all links with same origin of the page (done)
+* Extract all text content from a given class (done)
+* Recursive searching 
+* Run custom recursive searches for specific content on various sites
+* Graphviz visualization of links/content
+
+
+This script requires LXML (python-lxml) library. Make sure you install it before using the script. 
+
+Don't expect an GUI or CLI implementation, this is mostly a header, so you can prototype your custom searchers/parsers/crawlers faster, CLI parameters will be minimal at best, i like to use this trough ipython. 
+
 
 Usage is simple : ./linkcrawl.py [OPTION] {,http://}some.web.site
 
 Options:
 
 	-o: print only those that have the same origin as the requested site
+
+
+
