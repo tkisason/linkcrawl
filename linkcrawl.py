@@ -24,6 +24,15 @@ def parser(url,type="a",stype="href"):
         links.append(urljoin(url,link.get(stype)))
     return links
 
+def class_parse(url,cls):
+    if url.find('http://') == -1:
+        url = 'http://'+url
+    text = []
+    content = lxml.html.fromstring(get_url(url))
+    for cont in content.find_class(cls):
+        text.append(cont.text_content())
+    return text
+
 def same_netloc(origin,urllist):
     if origin.find('http://') == -1:
         origin = 'http://'+origin
