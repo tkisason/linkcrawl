@@ -12,10 +12,22 @@ As an example of what linkcrawl should do, there is a enum_pastie script, which 
 
 Try some of the following queries: "123456 qwerty", "DB_PASSWORD", "phpmyadmin", "connect(", "exploit"
 
+For example:
+
+tony@enigma:~/2code/linkcrawl$ ./enum_pastie.py 
+[+] LinkCrawl: Enumerate pastie.org, enter query: 123456 qwerty 
+[+] Enter output file name: passwords
+[+] Got links, dumping content to file, delimiter is: EOF EOF EOF
+[+] Working: .............................................................................
+
+[+] Enumeration done, output is in: passwords.html
+
+After that, open the passwords.html in a web browser and enjoy :) More stuff will be added later on as i have time.
+
+
 This script requires LXML (python-lxml) library. Make sure you install it before using the script. 
 
-Don't expect an GUI or CLI implementation, this is mostly a header, so you can prototype your custom searchers/parsers/crawlers faster, CLI parameters will be minimal at best, i like to use this trough ipython. 
-
+Don't expect an extensive GUI or CLI implementation, this is mostly a header, so you can prototype your custom searchers/parsers/crawlers faster, CLI parameters will be minimal at best, i like to use this with ipython. 
 
 Usage is simple : ./linkcrawl.py [OPTION] {,http://}some.web.site
 
