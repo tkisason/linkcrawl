@@ -39,7 +39,7 @@ if __name__ == '__main__':
     OF = raw_input("[+] Enter output file name: ")
     delimiter = "EOF EOF EOF"
     links = pastie_find(q)
-    print "[+] Got links, dumping content to file, delimiter is: " + str(delimiter)
+    print "[+] Got " +str(len(links)) +  " links dumping content to file, delimiter is: " + str(delimiter)
     OF = OF+".html"
     FILE = open((OF),"w")
     sys.stdout.write("[+] Working: ")
@@ -48,6 +48,7 @@ if __name__ == '__main__':
         FILE.write("\n\n\n"+delimiter+"\n\n\n")
         sys.stdout.write(".")
         sys.stdout.flush()
+        FILE.flush()
     print "\n"
     FILE.close()
     print "[+] Enumeration done, output is in: " + OF
