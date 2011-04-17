@@ -43,6 +43,17 @@ def same_netloc(origin,urllist):
             outlist.append(url)
     return outlist
 
+def extract_url_arg(urllist,arg):
+    args = []
+    if arg.find("=") == -1: 
+        arg = arg+"="
+    for elem in urllist:
+        s = elem.find(arg) + len(arg)
+        e = s + elem[s:].find("&")
+        if len(elem[s:e])>0:
+            args.append(elem[s:e])
+    return args
+
 if __name__ == '__main__':
     if len(argv) == 1:
         print "usage: ./"+argv[0]+" [OPTION] {,http://}some.web.site"

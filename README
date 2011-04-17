@@ -8,6 +8,9 @@ Some functionality that will be added over time is:
 * Run custom recursive searches for specific content on various sites
 * Graphviz visualization of links/content
 
+As an example of what linkcrawl should do, there is a enum_pastie script, which is an example how you can use linkcrawl to enumerate pastie.org to find interesting pasties. An ongoing effort is to minimse the needed code for custom crawlers. 
+
+Try some of the following queries: "123456 qwerty", "DB_PASSWORD", "phpmyadmin", "connect(", "exploit"
 
 This script requires LXML (python-lxml) library. Make sure you install it before using the script. 
 
