@@ -2,10 +2,12 @@
 # work in progress - multipurpose crawler
 from sys import argv
 import lxml.html    # you will need python-lxml to use this script.
-from urlparse import urlparse,urljoin 
+from urlparse import urlparse, urljoin
 import urllib2
 
-useragent = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8 ( .NET CLR 3.5.30729; .NET4.0C)'
+useragent = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) '\
+            'Gecko/20100722 Firefox/3.6.8 ( .NET CLR 3.5.30729; .NET4.0C)'
+
 
 def get_url(url):
     opener = urllib2.build_opener()
@@ -15,16 +17,18 @@ def get_url(url):
     usock.close()
     return data
 
-def parser(url,type="a",stype="href"):
+
+def parser(url, type="a", stype="href"):
     if url.find('http://') == -1:
         url = 'http://'+url
     content = lxml.html.fromstring(get_url(url))
     links = []
     for link in content.cssselect(type):
-        links.append(urljoin(url,link.get(stype)))
+        links.append(urljoin(url, link.get(stype)))
     return links
 
-def class_parse(url,cls):
+
+def class_parse(url, cls):
     if url.find('http://') == -1:
         url = 'http://'+url
     text = []
@@ -33,7 +37,8 @@ def class_parse(url,cls):
         text.append(cont.text_content())
     return text
 
-def same_netloc(origin,urllist):
+
+def same_netloc(origin, urllist):
     if origin.find('http://') == -1:
         origin = 'http://'+origin
     outlist = []
@@ -43,24 +48,26 @@ def same_netloc(origin,urllist):
             outlist.append(url)
     return outlist
 
-def extract_url_arg(urllist,arg):
+
+def extract_url_arg(urllist, arg):
     args = []
-    if arg.find("=") == -1: 
+    if arg.find("=") == -1:
         arg = arg+"="
     for elem in urllist:
         s = elem.find(arg) + len(arg)
         e = s + elem[s:].find("&")
-        if len(elem[s:e])>0:
+        if len(elem[s:e]) > 0:
             args.append(elem[s:e])
     return args
 
 if __name__ == '__main__':
     if len(argv) == 1:
         print "usage: ./"+argv[0]+" [OPTION] {,http://}some.web.site"
-        print "     -o: print only those that have the same origin as the requested site\n"
+        print "     -o: print only those that have the same origin as the "\
+              "requested site\n"
     else:
         if argv[1] == "-o":
-            links = same_netloc(argv[2],parser(argv[2]))
+            links = same_netloc(argv[2], parser(argv[2]))
         else:
             links = parser(argv[1])
         for link in links:
